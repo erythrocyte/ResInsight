@@ -634,6 +634,8 @@ void RivExtrudedCurveIntersectionPartMgr::createAnnotationSurfaceParts( bool use
 
     for ( const auto* band : m_rimIntersection->intersectionBands() )
     {
+        if ( !band->isChecked() ) continue;
+
         // Create a quad strip between the two surface polylines
 
         std::vector<cvf::Vec3d> polylineA;
@@ -681,7 +683,7 @@ void RivExtrudedCurveIntersectionPartMgr::createAnnotationSurfaceParts( bool use
                 part->setEnableMask( intersectionCellFaceBit );
                 part->setPriority( RivPartPriority::PartType::Transparent );
 
-                auto                        color = cvf::Color4f( cvf::Color3f::OLIVE, 0.5f );
+                auto                        color = cvf::Color4f( band->color(), band->transparency() );
                 caf::SurfaceEffectGenerator geometryEffgen( color, caf::PO_NEG_LARGE );
 
                 cvf::ref<cvf::Effect> geometryOnlyEffect = geometryEffgen.generateCachedEffect();

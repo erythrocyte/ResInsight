@@ -19,10 +19,15 @@
 
 #pragma once
 
+#include "RimCheckableObject.h"
+
 #include "cafPdmField.h"
+#include "cafPdmFieldCvfColor.h"
 #include "cafPdmObject.h"
 #include "cafPdmPtrField.h"
 #include "cafSignal.h"
+
+#include "cvfColor3.h"
 
 class RimSurface;
 
@@ -31,7 +36,7 @@ class RimSurface;
 //
 //
 //==================================================================================================
-class RimCurveIntersectionBand : public caf::PdmObject
+class RimCurveIntersectionBand : public RimCheckableObject
 {
     CAF_PDM_HEADER_INIT;
 
@@ -43,6 +48,11 @@ public:
     RimSurface* surfaceA() const;
     RimSurface* surfaceB() const;
 
+    void         setColor( const cvf::Color3f& color );
+    cvf::Color3f color() const;
+
+    float transparency() const;
+
 protected:
     void                          fieldChangedByUi( const caf::PdmFieldHandle* changedField, const QVariant& oldValue, const QVariant& newValue ) override;
     void                          defineUiOrdering( QString uiConfigName, caf::PdmUiOrdering& uiOrdering ) override;
@@ -53,4 +63,5 @@ private:
     caf::PdmPtrField<RimSurface*> m_surface1;
     caf::PdmPtrField<RimSurface*> m_surface2;
     caf::PdmField<double>         m_transparency;
+    caf::PdmField<cvf::Color3f>   m_color;
 };

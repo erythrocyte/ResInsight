@@ -38,6 +38,9 @@ RimCurveIntersectionBand::RimCurveIntersectionBand()
     CAF_PDM_InitFieldNoDefault( &m_surface2, "Surface2", "Surface 2", "", "", "" );
 
     CAF_PDM_InitField( &m_transparency, "Transparency", 0.5, "Transparency", "", "", "" );
+    CAF_PDM_InitField( &m_color, "Color", cvf::Color3f( 0.588f, 0.588f, 0.804f ), "Color", "", "", "" );
+
+    m_isChecked.uiCapability()->setUiHidden( false );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -54,6 +57,30 @@ RimSurface* RimCurveIntersectionBand::surfaceA() const
 RimSurface* RimCurveIntersectionBand::surfaceB() const
 {
     return m_surface2();
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+void RimCurveIntersectionBand::setColor( const cvf::Color3f& color )
+{
+    m_color = color;
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+cvf::Color3f RimCurveIntersectionBand::color() const
+{
+    return m_color;
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+float RimCurveIntersectionBand::transparency() const
+{
+    return m_transparency();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -1089,6 +1089,8 @@ std::vector<RimSurface*> RimExtrudedCurveIntersection::annotatedSurfaces() const
 
     for ( const auto& obj : m_annotationBands )
     {
+        if ( !obj->isChecked() ) continue;
+
         if ( auto surf = obj->surfaceA() ) surfaceSet.insert( surf );
         if ( auto surf = obj->surfaceB() ) surfaceSet.insert( surf );
     }
