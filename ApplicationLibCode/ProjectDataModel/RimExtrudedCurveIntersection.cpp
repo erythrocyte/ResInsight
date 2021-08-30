@@ -1069,7 +1069,31 @@ bool RimExtrudedCurveIntersection::hasDefiningPoints() const
 //--------------------------------------------------------------------------------------------------
 std::vector<RimSurface*> RimExtrudedCurveIntersection::annotatedSurfaces() const
 {
-    return m_annotationSurfaces.ptrReferencedObjects();
+    std::set<RimSurface*> surfaceSet;
+
+    for ( auto obj : m_annotationSurfaces.ptrReferencedObjects() )
+    {
+        surfaceSet.insert( obj );
+    }
+
+    for ( const auto& obj : m_annotationBands )
+    {
+        if ( auto surf = obj->surfaceA() ) surfaceSet.insert( surf );
+        if ( auto surf = obj->surfaceB() ) surfaceSet.insert( surf );
+    }
+
+    std::vector<RimSurface*> surfaces;
+    surfaces.insert( surfaces.begin(), surfaceSet.begin(), surfaceSet.end() );
+
+    return surfaces;
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+std::vector<RimCurveIntersectionBand*> RimExtrudedCurveIntersection::intersectionBands() const
+{
+    return m_annotationBands.childObjects();
 }
 
 //--------------------------------------------------------------------------------------------------

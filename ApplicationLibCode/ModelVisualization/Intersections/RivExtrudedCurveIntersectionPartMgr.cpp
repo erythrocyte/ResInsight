@@ -31,6 +31,7 @@
 #include "RigResultAccessorFactory.h"
 
 #include "Rim2dIntersectionView.h"
+#include "RimCurveIntersectionBand.h"
 #include "RimEclipseCase.h"
 #include "RimEclipseCellColors.h"
 #include "RimEclipseView.h"
@@ -618,13 +619,12 @@ void RivExtrudedCurveIntersectionPartMgr::createAnnotationSurfaceParts( bool use
             part->setDrawable( polylineGeo.p() );
 
             part->updateBoundingBox();
-            part->setPriority( RivPartPriority::PartType::Highlight );
+            part->setPriority( RivPartPriority::PartType::MeshLines );
 
             cvf::ref<cvf::Effect>    eff;
             caf::MeshEffectGenerator lineEffGen( surface->color() );
 
             lineEffGen.setLineWidth( 5.0f );
-
             eff = lineEffGen.generateUnCachedEffect();
             part->setEffect( eff.p() );
 
@@ -632,15 +632,22 @@ void RivExtrudedCurveIntersectionPartMgr::createAnnotationSurfaceParts( bool use
         }
     }
 
-    if ( surfPolys.size() > 1 )
+    for ( const auto* band : m_rimIntersection->intersectionBands() )
     {
-        // Create a quad strip between the two first polylines
+        // Create a quad strip between the two surface polylines
 
-        auto firstSurfaceItem  = surfPolys.begin();
-        auto secondSurfaceItem = firstSurfaceItem++;
+        std::vector<cvf::Vec3d> polylineA;
+        std::vector<cvf::Vec3d> polylineB;
 
-        auto polylineA = firstSurfaceItem->second;
-        auto polylineB = secondSurfaceItem->second;
+        if ( band->surfaceA() && surfPolys.count( band->surfaceA() ) )
+        {
+            polylineA = surfPolys[band->surfaceA()];
+        }
+
+        if ( band->surfaceB() && surfPolys.count( band->surfaceB() ) )
+        {
+            polylineB = surfPolys[band->surfaceB()];
+        }
 
         size_t pointCount = std::min( polylineA.size(), polylineB.size() );
         if ( pointCount > 1 )

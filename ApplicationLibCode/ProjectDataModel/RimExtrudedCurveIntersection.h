@@ -107,7 +107,8 @@ public:
     void       recomputeSimulationWellBranchData();
     bool       hasDefiningPoints() const;
 
-    std::vector<RimSurface*> annotatedSurfaces() const;
+    std::vector<RimSurface*>               annotatedSurfaces() const;
+    std::vector<RimCurveIntersectionBand*> intersectionBands() const;
 
     RimCurveIntersectionBand* appendNewIntersectionBand();
     void                      deleteIntersectionBand( RimCurveIntersectionBand* intersectionBand );

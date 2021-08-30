@@ -37,6 +37,9 @@ class RimCurveIntersectionBand : public caf::PdmObject
 public:
     RimCurveIntersectionBand();
 
+    RimSurface* surfaceA() const;
+    RimSurface* surfaceB() const;
+
 protected:
     void                          fieldChangedByUi( const caf::PdmFieldHandle* changedField, const QVariant& oldValue, const QVariant& newValue ) override;
     void                          defineUiOrdering( QString uiConfigName, caf::PdmUiOrdering& uiOrdering ) override;
