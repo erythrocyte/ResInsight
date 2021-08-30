@@ -538,6 +538,17 @@ void RimExtrudedCurveIntersection::defineCustomContextMenu( const caf::PdmFieldH
 //--------------------------------------------------------------------------------------------------
 ///
 //--------------------------------------------------------------------------------------------------
+void RimExtrudedCurveIntersection::initAfterRead()
+{
+    for ( auto item : m_annotationBands() )
+    {
+        item->changed.connect( this, &RimExtrudedCurveIntersection::onSurfaceBandsChanged );
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
 RimSimWellInViewCollection* RimExtrudedCurveIntersection::simulationWellCollection() const
 {
     RimEclipseView* eclipseView = nullptr;
@@ -1103,6 +1114,7 @@ RimCurveIntersectionBand* RimExtrudedCurveIntersection::appendNewIntersectionBan
 {
     auto intersectionBand = new RimCurveIntersectionBand();
     m_annotationBands.push_back( intersectionBand );
+    intersectionBand->changed.connect( this, &RimExtrudedCurveIntersection::onSurfaceBandsChanged );
 
     return intersectionBand;
 }
@@ -1152,4 +1164,12 @@ void RimExtrudedCurveIntersection::rebuildGeometryAndScheduleCreateDisplayModel(
 double RimExtrudedCurveIntersection::azimuthInRadians( cvf::Vec3d vec )
 {
     return cvf::GeometryTools::getAngle( -cvf::Vec3d::Z_AXIS, cvf::Vec3d::Y_AXIS, vec );
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+void RimExtrudedCurveIntersection::onSurfaceBandsChanged( const caf::SignalEmitter* emitter /*= nullptr */ )
+{
+    rebuildGeometryAndScheduleCreateDisplayModel();
 }

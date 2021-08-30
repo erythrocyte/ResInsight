@@ -31,6 +31,7 @@ CAF_PDM_SOURCE_INIT( RimCurveIntersectionBand, "RimCurveIntersectionBand" );
 ///
 //--------------------------------------------------------------------------------------------------
 RimCurveIntersectionBand::RimCurveIntersectionBand()
+    : changed( this )
 {
     CAF_PDM_InitObject( "CurveIntersectionBand", ":/CrossSection16x16.png", "", "" );
     CAF_PDM_InitFieldNoDefault( &m_surface1, "Surface1", "Surface 1", "", "", "" );
@@ -62,6 +63,7 @@ void RimCurveIntersectionBand::fieldChangedByUi( const caf::PdmFieldHandle* chan
                                                  const QVariant&            oldValue,
                                                  const QVariant&            newValue )
 {
+    changed.send();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -128,6 +128,8 @@ protected:
 
     void defineCustomContextMenu( const caf::PdmFieldHandle* fieldNeedingMenu, QMenu* menu, QWidget* fieldEditorWidget ) override;
 
+    void initAfterRead() override;
+
 private:
     static void setPushButtonText( bool buttonEnable, caf::PdmUiPushButtonEditorAttribute* attribute );
     static void setBaseColor( bool enable, caf::PdmUiListEditorAttribute* attribute );
@@ -138,6 +140,8 @@ private:
     void                        addExtents( std::vector<cvf::Vec3d>& polyLine ) const;
     void                        updateName();
     static double               azimuthInRadians( cvf::Vec3d vec );
+
+    void onSurfaceBandsChanged( const caf::SignalEmitter* emitter = nullptr );
 
 private:
     caf::PdmField<QString> m_name;
