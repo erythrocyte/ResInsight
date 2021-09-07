@@ -29,6 +29,8 @@
 #include "cvfProgramOptions.h"
 #include "cvfqtUtils.h"
 
+#include <QThreadPool>
+
 #ifndef WIN32
 #include <sys/types.h>
 #include <unistd.h>
@@ -67,6 +69,9 @@ int main( int argc, char* argv[] )
     }
 #endif
     RiaLogging::loggerInstance()->setLevel( int( RILogLevel::RI_LL_DEBUG ) );
+
+    // https://github.com/OPM/ResInsight/issues/7957
+    QThreadPool::globalInstance()->setMaxThreadCount( 1 );
 
     std::unique_ptr<RiaApplication> app( createApplication( argc, argv ) );
 
