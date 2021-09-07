@@ -153,9 +153,9 @@ void PdmUiFilePathEditor::fileSelectionClicked()
         defaultPath = m_lineEdit->text();
     }
 
-    QFileDialog::Options fileDialogOptions;
+    QFileDialog::Options fileDialogOptions = QFileDialog::DontUseCustomDirectoryIcons;
 #ifndef WIN32
-    fileDialogOptions = QFileDialog::DontUseNativeDialog;
+    fileDialogOptions |= QFileDialog::DontUseNativeDialog;
 #endif
 
     if ( m_attributes.m_selectDirectory )

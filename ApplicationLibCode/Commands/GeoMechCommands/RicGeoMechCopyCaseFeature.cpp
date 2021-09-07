@@ -31,7 +31,7 @@
 #include "cafUtils.h"
 
 #include <QAction>
-#include <QFileDialog>
+#include <QFileInfo>
 
 CAF_CMD_SOURCE_INIT( RicGeoMechCopyCaseFeature, "RicGeoMechCopyCaseFeature" );
 

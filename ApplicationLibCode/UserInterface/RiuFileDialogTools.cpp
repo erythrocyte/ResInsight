@@ -18,8 +18,6 @@
 
 #include "RiuFileDialogTools.h"
 
-#include <QFileDialog>
-
 //--------------------------------------------------------------------------------------------------
 ///
 //--------------------------------------------------------------------------------------------------
@@ -29,12 +27,9 @@ QString RiuFileDialogTools::getSaveFileName( QWidget*       parent /*= nullptr*/
                                              const QString& filter /*= QString()*/,
                                              QString*       selectedFilter /*= nullptr */ )
 {
-#ifdef WIN32
-    return QFileDialog::getSaveFileName( parent, caption, dir, filter, selectedFilter );
-#else
-    auto options = QFileDialog::DontUseNativeDialog;
+    QFileDialog::Options options = defaultOptions();
+
     return QFileDialog::getSaveFileName( parent, caption, dir, filter, selectedFilter, options );
-#endif
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -46,12 +41,9 @@ QStringList RiuFileDialogTools::getOpenFileNames( QWidget*       parent /*= null
                                                   const QString& filter /*= QString()*/,
                                                   QString*       selectedFilter /*= nullptr */ )
 {
-#ifdef WIN32
-    return QFileDialog::getOpenFileNames( parent, caption, dir, filter, selectedFilter );
-#else
-    auto options = QFileDialog::DontUseNativeDialog;
+    QFileDialog::Options options = defaultOptions();
+
     return QFileDialog::getOpenFileNames( parent, caption, dir, filter, selectedFilter, options );
-#endif
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -61,12 +53,14 @@ QString RiuFileDialogTools::getExistingDirectory( QWidget*       parent /*= null
                                                   const QString& caption /*= QString()*/,
                                                   const QString& dir /*= QString() */ )
 {
-#ifdef WIN32
-    return QFileDialog::getExistingDirectory( parent, caption, dir );
-#else
-    auto options = QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks | QFileDialog::DontUseNativeDialog;
-    return QFileDialog::getExistingDirectory( parent, caption, dir, options );
+    QFileDialog::Options options = defaultOptions();
+
+#ifndef WIN32
+    options |= QFileDialog::ShowDirsOnly;
+    options |= QFileDialog::DontResolveSymlinks;
 #endif
+
+    return QFileDialog::getExistingDirectory( parent, caption, dir, options );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -78,10 +72,24 @@ QString RiuFileDialogTools::getOpenFileName( QWidget*       parent /*= nullptr*/
                                              const QString& filter /*= QString()*/,
                                              QString*       selectedFilter /*= nullptr */ )
 {
-#ifdef WIN32
-    return QFileDialog::getOpenFileName( parent, caption, dir, filter, selectedFilter );
-#else
-    auto options = QFileDialog::DontUseNativeDialog;
+    QFileDialog::Options options = defaultOptions();
+
     return QFileDialog::getOpenFileName( parent, caption, dir, filter, selectedFilter, options );
+}
+
+//--------------------------------------------------------------------------------------------------
+///
+//--------------------------------------------------------------------------------------------------
+QFileDialog::Options RiuFileDialogTools::defaultOptions()
+{
+    // Large performance improvements have been measured related to DontUseCustomDirectoryIcons
+    // https://github.com/yayapoi/qtbase/commit/46685f755b01288fd53c4483cb97a22c426a57f0
+    //
+    // Never use native dialog on Linux
+    // https://github.com/OPM/ResInsight/issues/6345
+
+#ifdef WIN32
+    return QFileDialog::DontUseCustomDirectoryIcons;
 #endif
+    return QFileDialog::DontUseCustomDirectoryIcons | QFileDialog::DontUseNativeDialog;
 }

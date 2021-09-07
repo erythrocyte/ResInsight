@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include <QFileDialog>
 #include <QString>
 #include <QStringList>
 
@@ -45,5 +46,7 @@ QString getOpenFileName( QWidget*       parent         = nullptr,
                          const QString& dir            = QString(),
                          const QString& filter         = QString(),
                          QString*       selectedFilter = nullptr );
+
+QFileDialog::Options defaultOptions();
 
 } // namespace RiuFileDialogTools
