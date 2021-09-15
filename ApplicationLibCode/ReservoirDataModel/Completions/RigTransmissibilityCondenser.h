@@ -20,7 +20,7 @@
 
 #include "cafAssert.h"
 
-#include <Eigen/Core>
+#include <eigen3/Eigen/Core>
 
 #include <map>
 #include <set>

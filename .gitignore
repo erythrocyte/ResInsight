@@ -80,3 +80,6 @@ enc_temp_folder
 *.pyc
 
 *.ESMRY
+
+.fake
+.ionide

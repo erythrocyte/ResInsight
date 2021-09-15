@@ -109,7 +109,7 @@ set(LINK_LIBRARIES
     nightcharts
     qwt
     ${QT_LIBRARIES}
-    Eigen3::Eigen
+    # Eigen3::Eigen3
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LINK_LIBRARIES})

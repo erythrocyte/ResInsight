@@ -400,7 +400,7 @@ endif()
 # ##############################################################################
 
 set(LINK_LIBRARIES
-    Eigen3::Eigen
+    # Eigen3::Eigen3
     ${THIRD_PARTY_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${QT_LIBRARIES}
